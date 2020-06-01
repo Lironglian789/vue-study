@@ -7,8 +7,13 @@
 </template>
 
 <script>
-  import Schema from "async-validator";
+  import Schema from "async-validator"
+  import emitter from '@/mixins/emitter'
+
+
   export default {
+    compomentName: 'FormItem',
+    mixins: [emitter],
     inject: ['form'],
     props: {
       label: {
@@ -29,6 +34,10 @@
       this.$on('validate', () => {
         this.validate()
       });
+      // 派发事件，通知FormI增加一个FormItem实例
+      if (this.prop) {
+        this.dispatch('Form', 'Form.addField', [this] )
+      }
     },
     methods: {
       validate() {

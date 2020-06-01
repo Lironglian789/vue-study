@@ -2,7 +2,7 @@
   <div>
     <h2>组建通信</h2>
     <!-- props, 自定义事件 -->
-    <child1 msg="message from patent" @onSomeEvent='onSomeEvent'></child1>
+    <child1 msg="message from patent" b="1234567" @onSomeEvent='onSomeEvent'></child1>
     <!-- 事件总线 -->
     <child2 foo="foo" @onSomeEvent='onSomeEvent'></child2>
   

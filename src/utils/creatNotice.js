@@ -14,9 +14,10 @@ export default function createNotice(Component, props) {
   const Comp = new Vue({
     render(h) {
       // h 是createElement函数，可以返回vdom
+      // 需要挂载才能变成真实的dom
       return h(Component, {props})
     }
-  }).$mount() // $mount()目标：将vdom=》dom
+  }).$mount() // $mount()目标：将vdom=》dom，不指定宿主元素，会创建真丝dom，但是不会追加操作
 
   document.body.appendChild(Comp.$el)
 

@@ -5,7 +5,10 @@
 </template>
 
 <script>
+  import emitter from '@/mixins/emitter'
+
   export default {
+    mixins: [emitter],
     props: {
       type: {
         type: String,
@@ -19,13 +22,15 @@
     methods: {
       onInput(e) {
         this.$emit('input', e.target.value)
-        // 数据变化时执行校验
-        this.$parent.$emit('validate')
+        // 数据变化时执行校验(耦合性太强)
+        // this.$parent.$emit('validate')
+        // 进行解耦处理
+        this.dispatch('FormItem', 'validate')
       }
     }
   }
 </script>
 
-<style lang="scss" scoped>
+<style  scoped>
 
 </style>

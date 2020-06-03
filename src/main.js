@@ -5,6 +5,11 @@ import 'element-ui/lib/theme-chalk/index.css'
 
 import createNotice from '@/utils/creatNotice.js'
 import Notice from '@/components/Notice'
+// import store from './store'
+// import router from './router'
+
+import store from './kstore'
+import router from './krouter'
 
 Vue.use(Element)
 
@@ -16,5 +21,7 @@ Vue.prototype.$Notice = function (props) {
 }
 
 new Vue({
-  render: h => h(App),
+  store,
+  router,
+  render: h => h(App)
 }).$mount('#app')

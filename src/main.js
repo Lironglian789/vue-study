@@ -1,27 +1,35 @@
 import Vue from 'vue'
 import App from './App.vue'
-import Element from 'element-ui'
-import 'element-ui/lib/theme-chalk/index.css'
-
-import createNotice from '@/utils/creatNotice.js'
-import Notice from '@/components/Notice'
-// import store from './store'
-// import router from './router'
-
-import store from './kstore'
-import router from './krouter'
-
-Vue.use(Element)
+import createRouter from './router'
+import { createStore } from './store'
 
 Vue.config.productionTip = false
-// 时间总线
-Vue.prototype.$bus = new Vue()
-Vue.prototype.$Notice = function (props) {
-  return createNotice (Notice, props)
-}
 
-new Vue({
-  store,
-  router,
-  render: h => h(App)
-}).$mount('#app')
+// 添加一个全局混入：beforeMount钩子在服务端不会触发，所以这个混入只会在客户端执行
+Vue.mixin({
+  beforeMount () {
+    const {asyncData} = this.$options
+    if (asyncData) {
+      // 如果存在则执行异步调用
+      asyncData ({
+        store: this.$store,
+        route: this.$route
+      })
+    }
+  }
+})
+
+
+// 导出Vue实例⼯⼚函数，为每次请求创建独⽴实例
+// 将被entry-server调用，上下⽂⽤于给vue实例传递参数
+export function createApp (context) {
+ const router =  createRouter ()
+ const store = createStore()
+  const app = new Vue({
+    router,
+    store,
+    context, 
+    render: h => h(App)
+  }).$mount('#app') 
+  return {app, router, store}
+}

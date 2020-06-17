@@ -11,6 +11,8 @@ import Notice from '@/components/Notice'
 import store from './kstore'
 import router from './krouter'
 
+import './ts-test'
+
 Vue.use(Element)
 
 Vue.config.productionTip = false

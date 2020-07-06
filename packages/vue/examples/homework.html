@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>see you next time</title>
+</head>
+<body>
+  <div id="app">
+    <h3>未完成待办总数 {{total}} 条</h3>
+    <p>{{msg}}</p>
+    <ul>
+      <li v-for='backlog in backlogList'
+      :key='backlog.id' 
+      @click="finished(backlog)" 
+      :style='{"text-decoration": backlog.isFinish?"line-through": ""}'
+      >{{backlog.name}}</li>
+    </ul>
+  </div>
+
+  <script src="../dist/vue.global.js"></script>
+  <script>
+    const {createApp, onMounted, reactive, toRefs, ref, computed, watch} = Vue
+    const app = createApp({
+      setup () {
+        const state = reactive({
+          msg: '',
+          backlogList: [
+            {id: 1, name: '复习vue', isFinish: false},
+            {id: 2, name: '预习react', isFinish: false},
+            {id: 3, name: 'vue面试训练营', isFinish: false}
+          ],
+          total: computed(() => state.backlogList.filter(item => !item.isFinish).length)
+        })
+        watch(state.backlogList, (backlogList, prevBacklogList) => {
+          let restBacklog = prevBacklogList.filter(item => !item.isFinish).length
+          state.msg = '恭喜您，只剩' + restBacklog + '项任务啦'
+        })
+        onMounted(() => {
+          state.backlogList[0].isFinish = true
+        })
+        function finished(backlog) {
+          backlog.isFinish = true
+        }
+        return {...toRefs(state), finished}
+      }
+    })
+    app.mount('#app')
+  </script>
+</body>
+</html>

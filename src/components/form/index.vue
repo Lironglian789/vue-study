@@ -44,11 +44,6 @@
     methods: {
       login() {
         this.$refs.form.validate(isTrue => {
-          // if (isTrue) {
-          //   console.log('请求登录！！！');
-          // } else {
-          //   alert('校验失败！！！！')
-          // }
           this.$Notice({
             title: '校验结果',
             message: isTrue ? '请求登录' : '校验失败',

@@ -5,7 +5,6 @@
     <child1 msg="message from patent" b="1234567" @onSomeEvent='onSomeEvent'></child1>
     <!-- 事件总线 -->
     <child2 foo="foo" @onSomeEvent='onSomeEvent'></child2>
-  
   </div>
 </template>
 

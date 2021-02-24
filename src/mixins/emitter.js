@@ -1,4 +1,6 @@
+// 广播：自上而下派发事件
 function broadcast(componentName, eventName, params) {
+  // 遍历所有的子元素，如果子元素的compoment name和传入的compoment name相同则派发事件
   this.$children.forEach(child => {
     var name = child.$options.componentName;
 
@@ -11,10 +13,11 @@ function broadcast(componentName, eventName, params) {
 }
 export default {
   methods: {
+    // 冒泡：自下向上查找compoment name相同的组件并派发事件
     dispatch(componentName, eventName, params) {
       var parent = this.$parent || this.$root;
       var name = parent.$options.componentName;
-
+      // 向上查找直到找到相同的compoment name的组件
       while (parent && (!name || name !== componentName)) {
         parent = parent.$parent;
 

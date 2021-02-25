@@ -10,7 +10,7 @@ class Store {
     //     return options.getters[key](this._data.$$state)
     //   }
     // })
-    
+  
     this.$options = options
     // data 中的值做响应式处理 用_vm标识私有属性
     this._vm = new Vue({
@@ -28,7 +28,7 @@ class Store {
     // 锁死 commit 和 dipatch 的this指向
     // 方案1
     // this.commit = this.commit.bind(this)
-    // this.dipatch = this.commit.dipatch(this)
+    // this.dipatch = this.dipatch.bind(this)
 
     // 方案2 
     const store = this
@@ -39,6 +39,8 @@ class Store {
     this.dispath = function boundDispath (type, payload) {
       dispath.call(store, type, payload)
     }
+
+    // 实现gutter
     this.handleGetters()
   }
 

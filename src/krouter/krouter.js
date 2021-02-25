@@ -13,7 +13,12 @@ class VueRouter {
       this.routerMap[route.path] = route
     })
     // 设置响应式的current 保存当前的url 用于匹配当前组件==》渲染当前组件
-    Vue.util.defineReactive(this, 'current', '/')
+    // Vue.util.defineReactive(this, 'current', '/')
+
+    // todo
+    // this.current = window.location.hash.slice(1) || '/'
+    // Vue.util.defineReactive(this, )
+
 
     // 监听哈希变化 bind(this) 锁死this指向为当前实例，否则会指向window
     window.addEventListener('hashchange', this.onHashChange.bind(this))
@@ -25,7 +30,7 @@ class VueRouter {
   }
 }
 
-// 实现静态方法install， Vue.use()时调用，参数1是Vue的构造函数
+// 实现静态方法install， Vue.use()时调用，参数是Vue的构造函数
 VueRouter.install = function (_Vue) {
   Vue = _Vue
 
@@ -46,7 +51,13 @@ VueRouter.install = function (_Vue) {
         default: ''
       }
     },
+    mounted() {
+      // console.log('mounted=======', this)
+      // console.log('$scopedSlots.default()', this.$scopedSlots.default())
+      // console.log('$slots.default', this.$slots.default)
+    },
     render (h) {
+      // 2.6.0以后$slots 和 $scopedSlots 都可以，官方推荐$scopedSlots，有利于升级到vue3
       return h('a', {attrs: {href: '#' + this.to}}, this.$slots.default)
       // jsx 实现 但不推荐，因为这是插件封装，不可能要求使用者必须去配置JSX环境
       // return <a href={'#' + this.to}>{this.$slot.default} </a>
@@ -54,6 +65,22 @@ VueRouter.install = function (_Vue) {
   })
   Vue.component('router-view', {
     render (h) {
+      // todo
+      // 处理路由嵌套问题
+      // 标记当前router-view深度
+      // this.$vnode.data.routerView = true
+      // let depth = 0
+      // let parent = this.$parent
+      // while (parent) {
+      //   const vnodeData = paternt.$vnode && parent.$vnode.data
+      //   if (vnodeData) {
+      //     if (vnodeData.routerView) {
+      //       depth++
+      //     }
+      //   }
+      //   parent = parent.$parent
+      // }
+
       const {routerMap, current} = this.$router
       const component = routerMap[current]? routerMap[current].component : null
       return h(component)
